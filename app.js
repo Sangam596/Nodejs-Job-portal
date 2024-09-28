@@ -6,7 +6,7 @@ import cors from 'cors';
 // import "express-async-errors";
 
 // routes import
-import testRoute  from "./routes/testRoute.js";
+import userRoute  from "./routes/userRoute.js";
 import registerRoute from "./routes/registerRoute.js";
 import logInRoute from "./routes/logInRoute.js"
 
@@ -26,9 +26,10 @@ app.use(cors());
 // connect to database
 connectDB();
 // routes
-app.use("/api/v1", testRoute);
 app.use("/api/v1", registerRoute);
 app.use("/api/v1", logInRoute);
+app.use("/api/v1", userRoute);
+
 app.use("/", (req, res) => {
   res.send("<h1>Welcome to job portal app<h1/>");
 });

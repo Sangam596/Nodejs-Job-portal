@@ -7,9 +7,14 @@ export const encryptPassword = async (password) => {
 };
 
 export const createJWT = async (id) => {
-    console.log(`coming createJET`, id);
   return jwt.sign({ userId: id }, process.env.JWT_SECRET_KEY, {
     expiresIn: "1d",
   });
 };
-export const decryptPassword = async (password) => {};
+export const comparePassword = async (password, hash) => {
+  return await bcrypt.compare(password, hash);
+};
+
+export const verifyJWT = async (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET_KEY);
+};
