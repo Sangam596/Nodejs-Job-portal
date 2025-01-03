@@ -15,7 +15,9 @@ import { encryptPassword } from "../utils/utils.js";
         required: [true, 'Email is required'],
         unique: true,
         // match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, 'Please enter proper mail address']
-        Validate: validator.isEmail
+        Validate(value){
+            if(!validator.isEmail) throw new Error('Please enter a valid email');
+        }
     },
     password: {
         type: String,

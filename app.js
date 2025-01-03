@@ -2,19 +2,18 @@
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import cors from 'cors';
+import cors from "cors";
 // import "express-async-errors";
 
 // routes import
-import userRoute  from "./routes/userRoute.js";
+import userRoute from "./routes/userRoute.js";
 import registerRoute from "./routes/registerRoute.js";
-import logInRoute from "./routes/logInRoute.js"
+import logInRoute from "./routes/logInRoute.js";
 
 // DB Connection Import
 import { connectDB } from "./db/db.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 dotenv.config();
-
 
 const app = express();
 
@@ -23,8 +22,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
-// connect to database
-connectDB();
 // routes
 app.use("/api/v1", registerRoute);
 app.use("/api/v1", logInRoute);
@@ -34,11 +31,17 @@ app.use("/", (req, res) => {
   res.send("<h1>Welcome to job portal app<h1/>");
 });
 
-app.use(errorHandler)
-
+app.use(errorHandler);
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(
-    `Server is running in ${process.env.ENV_MODE} mode on: http://localhost:${port}`
-  );
-});
+// connect to database
+connectDB()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(
+        `Server is running in ${process.env.ENV_MODE} mode on: http://localhost:${port}`
+      );
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
